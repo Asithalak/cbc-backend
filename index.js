@@ -31,7 +31,7 @@ app.use((req, res, next) => {
             next()
     }
 })
-
+//database
 mongoose.connect("mongodb+srv://admin:123@cluster0.ogciv89.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 .then(()=>{
     console.log("Connect to the databases")
