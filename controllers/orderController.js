@@ -1,11 +1,7 @@
 import Order from "../models/order.js";
 import Product from "../models/product.js";
 import { isAdmin } from "./userController.js"; 
-<<<<<<< HEAD
-	//create orders
-=======
-	//create order
->>>>>>> 2470e27c634bce9ceaf00c63fa8dd302eae84459
+
 export async function createOrder(req, res)
 	
  {
