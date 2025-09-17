@@ -5,11 +5,13 @@ import productsRouter from './Routes/productsRouter.js';
 import userRouter from './Routes/userRouter.js';
 import orderRouter from './Routes/orderRouter.js'; 
 import jwt from 'jsonwebtoken';
+import cors from 'cors';
 
 const app = express();
+
+app.use(cors())
 app.use(bodyParser.json())
-//middleware
-//authentication
+
 app.use((req, res, next) => {
     const tokenString = req.header("Authorization")
     if(tokenString != null){
@@ -41,9 +43,9 @@ mongoose.connect("mongodb+srv://admin:123@cluster0.ogciv89.mongodb.net/?retryWri
 }
 )
 
-app.use("/product",productsRouter)
-app.use("/users",userRouter)
-app.use("/orders", orderRouter);
+app.use("/api/product",productsRouter)
+app.use("/api/users",userRouter)
+app.use("/api/orders", orderRouter);
 
 //mongodb+srv://admin:123@cluster0.ogciv89.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
 app.listen(5000,

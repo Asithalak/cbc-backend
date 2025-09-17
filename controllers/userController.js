@@ -2,6 +2,7 @@ import User from "../models/user.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
+
 export function createUser(req, res) {
     if(req.user.role == "admin"){
         if(req.user.role != null){
@@ -52,13 +53,19 @@ export function loginUser(req, res) {
     User.findOne({ email : email }).then(
         (user) =>{
             if(user == null){
-                res.status(400).json({
+                res.status(404).json({
                     message : "user not found"
                 })
             }
-            else{
+         
                 const isPasswordCoorrect = bcrypt.compareSync(password, user.password)
-                if(isPasswordCoorrect){
+                if(!isPasswordCoorrect){
+
+                     return res.status(401).json({
+                        message : "invalid password",
+                        
+                   }) 
+                }
                     const token = jwt.sign(
                       {
                             email : user.email,
@@ -73,18 +80,19 @@ export function loginUser(req, res) {
                         message : "login success",
                         token : token
                     })
+                })
+            
+        
+            .catch(
+                (error) => {
+                    res.status(500).json({
+                        message : "internal server error",
+                        error : error.message
+                    })
                 }
-                else{
-                    res.status(400).json({
-                        error,
-                       message : "invalid password"
-                   })
-                }
-            }
+            
+            )
         }
-    )
-}
-
 
 export function isAdmin(req) {
 
